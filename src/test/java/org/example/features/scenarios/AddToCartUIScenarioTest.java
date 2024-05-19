@@ -6,17 +6,15 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.example.steps.serenity.EndUserSteps;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 @RunWith(SerenityParameterizedRunner.class)
 @UseTestDataFrom("features/function/loginValidData.csv")
-public class FullScenarioTest {
+public class AddToCartUIScenarioTest {
     @Managed(uniqueSession = true)
     public WebDriver webdriver;
-
     @Steps
     public EndUserSteps user;
 
@@ -28,15 +26,16 @@ public class FullScenarioTest {
     }
 
     @Test
-    @Ignore
-    public void test_valid_login_add_to_card_remove_from_cart_logout() {
+    // @Ignore
+    public void test_valid_add_to_cart_ui() {
         // Login
         user.logsIn(username, password);
         user.checkLoginSuccessful();
 
         // Add to cart
-        user.addItemToCart();
-        user.checkAddItemToCartSuccessful();
+        user.checkAddToCartButtonsProperties();
+        user.addAllItemsToCart();
+        user.checkAddedToCartButtonsProperties();
 
         // Logout
         user.logsOut();

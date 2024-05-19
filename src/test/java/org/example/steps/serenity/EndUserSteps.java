@@ -4,12 +4,14 @@ import net.thucydides.core.annotations.Step;
 import org.example.pages.HomePage;
 import org.example.pages.LoginPage;
 import org.example.pages.ShoppingCartPage;
+import org.example.utils.ColorParser;
 import org.example.utils.Configuration;
 import org.junit.Assert;
 
+import java.util.List;
+import java.util.Map;
+
 import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 
 public class EndUserSteps {
 
@@ -18,7 +20,7 @@ public class EndUserSteps {
     private ShoppingCartPage shoppingCartPage;
 
     @Step
-    public  void logsIn(String username, String password) {
+    public void logsIn(String username, String password) {
         loginPage.open();
         loginPage.setUsernameField(username);
         loginPage.setPasswordField(password);
@@ -42,10 +44,39 @@ public class EndUserSteps {
     }
 
     @Step
+    public void addAllItemsToCart() {
+        homePage.clickAddToCartButtonAllItems();
+    }
+
+    @Step
     public void checkAddItemToCartSuccessful() {
         Assert.assertEquals(1, homePage.getNumberOfAddedItemsBadgeCount());
         homePage.clickShoppingCartButton();
         Assert.assertEquals(1, shoppingCartPage.getQuantityOfShoppingCart());
+    }
+
+    @Step
+    public void checkAddToCartButtonsProperties() {
+        List<Map<String, String>> props = homePage.getAddToCartButtonsProperties();
+        for (Map<String, String> prop : props) {
+            Assert.assertEquals("Add to cart", prop.get("text"));
+            String color = ColorParser.parseColor(prop.get("color")).get("red");
+            String border_color = ColorParser.parseColor(prop.get("border")).get("red");
+            Assert.assertEquals(color, border_color);
+            Assert.assertTrue(Integer.parseInt(color) < 200); // means a greater percentage of red
+        }
+    }
+
+    @Step
+    public void checkAddedToCartButtonsProperties() {
+        List<Map<String, String>> props = homePage.getAddToCartButtonsProperties();
+        for (Map<String, String> prop : props) {
+            Assert.assertEquals("Remove", prop.get("text"));
+            String color = ColorParser.parseColor(prop.get("color")).get("red");
+            String border_color = ColorParser.parseColor(prop.get("border")).get("red");
+            Assert.assertEquals(color, border_color);
+            Assert.assertTrue(Integer.parseInt(color) > 200); // means a greater percentage of red
+        }
     }
 
     @Step

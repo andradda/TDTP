@@ -49,6 +49,22 @@ public class EndUserSteps {
     }
 
     @Step
+    public void addRandomItemToCart() {
+        homePage.clickAddToCartButtonOnRandomItem();
+    }
+
+    @Step
+    public void addRandomInvalidItemToCart() {
+        homePage.clickAddToCartButtonOnRandomInvalidItem();
+    }
+
+    @Step
+    public void checkAddItemToCartUnsuccessful() {
+        homePage.clickShoppingCartButton();
+        Assert.assertEquals(0, shoppingCartPage.getQuantityOfShoppingCart());
+    }
+
+    @Step
     public void logsOut() {
         homePage.clickLogoutButton();
     }

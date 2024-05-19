@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+import java.util.Random;
 
 public class HomePage extends PageObject {
     @FindBy(css = "[data-test='inventory-item']")
@@ -27,6 +28,24 @@ public class HomePage extends PageObject {
     public void clickAddToCartButtonOnItem() { // For testing purposes we use the first item in the list
         waitFor(inventoryItems.get(0));
         WebElementFacade firstItem = inventoryItems.get(0);
+        WebElementFacade addToCartButton = firstItem.find(By.className("btn_inventory"));
+        addToCartButton.click();
+    }
+
+    public void clickAddToCartButtonOnRandomItem() {
+        int randomItemId = new Random().nextInt(inventoryItems.size());
+        waitFor(inventoryItems.get(randomItemId));
+        WebElementFacade firstItem = inventoryItems.get(randomItemId);
+        WebElementFacade addToCartButton = firstItem.find(By.className("btn_inventory"));
+        addToCartButton.click();
+    }
+
+    public void clickAddToCartButtonOnRandomInvalidItem() {
+        int[] invalid_ids = {2,3,5};
+        int randomItemId = invalid_ids[new Random().nextInt(invalid_ids.length)];
+        waitFor(inventoryItems.get(randomItemId));
+
+        WebElementFacade firstItem = inventoryItems.get(randomItemId);
         WebElementFacade addToCartButton = firstItem.find(By.className("btn_inventory"));
         addToCartButton.click();
     }

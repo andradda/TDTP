@@ -6,7 +6,6 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.example.steps.serenity.EndUserSteps;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +26,7 @@ public class AddToCartUIScenarioTest {
     }
 
     @Test
-    @Ignore
+    // @Ignore
     public void test_valid_add_to_cart_ui() {
         // Login
         user.logsIn(username, password);

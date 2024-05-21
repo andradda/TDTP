@@ -6,8 +6,7 @@ import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class HomePage extends PageObject {
     @FindBy(css = "[data-test='inventory-item']")
@@ -31,6 +30,14 @@ public class HomePage extends PageObject {
         addToCartButton.click();
     }
 
+    public void clickAddToCartButtonAllItems() {
+        waitFor(inventoryItems.get(0));
+        for (WebElementFacade item : inventoryItems) {
+            WebElementFacade addToCartButton = item.find(By.className("btn_inventory"));
+            addToCartButton.click();
+        }
+    }
+
     public void clickAddToCartButtonOnRandomItem() {
         int randomItemId = new Random().nextInt(inventoryItems.size());
         waitFor(inventoryItems.get(randomItemId));
@@ -40,7 +47,7 @@ public class HomePage extends PageObject {
     }
 
     public void clickAddToCartButtonOnRandomInvalidItem() {
-        int[] invalid_ids = {2,3,5};
+        int[] invalid_ids = {2, 3, 5};
         int randomItemId = invalid_ids[new Random().nextInt(invalid_ids.length)];
         waitFor(inventoryItems.get(randomItemId));
 
@@ -57,6 +64,20 @@ public class HomePage extends PageObject {
 
     public void clickShoppingCartButton() {
         shoppingCartButton.click();
+    }
+
+    public List<Map<String, String>> getAddToCartButtonsProperties() {
+        waitFor(inventoryItems.get(0));
+        List<Map<String, String>> buttonsPropertiesList = new ArrayList<>();
+        for (WebElementFacade item : inventoryItems) {
+            WebElementFacade addToCartButton = item.find(By.className("btn_inventory"));
+            Map<String, String> properties = new HashMap<>();
+            properties.put("color", addToCartButton.getCssValue("color"));
+            properties.put("border", addToCartButton.getCssValue("border-color"));
+            properties.put("text", addToCartButton.getText());
+            buttonsPropertiesList.add(properties);
+        }
+        return buttonsPropertiesList;
     }
 
     public void clickLogoutButton() {

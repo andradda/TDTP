@@ -1,9 +1,7 @@
 package org.example.steps.serenity;
 
 import net.thucydides.core.annotations.Step;
-import org.example.pages.HomePage;
-import org.example.pages.LoginPage;
-import org.example.pages.ShoppingCartPage;
+import org.example.pages.*;
 import org.example.utils.ColorParser;
 import org.example.utils.Configuration;
 import org.junit.Assert;
@@ -18,6 +16,9 @@ public class EndUserSteps {
     private LoginPage loginPage;
     private HomePage homePage;
     private ShoppingCartPage shoppingCartPage;
+    private CheckoutPage checkoutPage;
+    private OrderConfirmationPage orderConfirmationPage;
+    private PlacedOrderPage placedOrderPage;
 
     @Step
     public void logsIn(String username, String password) {
@@ -103,6 +104,29 @@ public class EndUserSteps {
     @Step
     public void checkLogoutSuccessful() {
         Assert.assertEquals(Configuration.BASE_URL, getDriver().getCurrentUrl());
+    }
+
+    @Step
+    public void checkout(String firstName, String lastName, String postalCode) {
+        homePage.clickShoppingCartButton();
+        shoppingCartPage.clickCheckOutButton();
+        checkoutPage.setFirstNameField(firstName);
+        checkoutPage.setLastNameField(lastName);
+        checkoutPage.setPostalCodeField(postalCode);
+        checkoutPage.clickContinueButton();
+        orderConfirmationPage.clickFinishButton();
+        Assert.assertEquals("Thank you for your order!", placedOrderPage.getConfirmationText());
+        placedOrderPage.clickBackHomeButton();
+    }
+
+    @Step
+    public void unfinished_checkout(String firstName, String lastName, String postalCode) {
+        homePage.clickShoppingCartButton();
+        shoppingCartPage.clickCheckOutButton();
+        checkoutPage.setFirstNameField(firstName);
+        checkoutPage.setLastNameField(lastName);
+        checkoutPage.setPostalCodeField(postalCode);
+        checkoutPage.clickCancelButton();
     }
 
 }

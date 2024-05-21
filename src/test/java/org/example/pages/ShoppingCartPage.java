@@ -9,8 +9,13 @@ import java.util.List;
 public class ShoppingCartPage extends PageObject {
     @FindBy(css = "[data-test='inventory-item']")
     private List<WebElementFacade> shoppingCartItems;
+    @FindBy(id = "checkout")
+    private WebElementFacade checkoutButton;
 
     public int getQuantityOfShoppingCart() {
         return shoppingCartItems.size();
+    }
+    public void clickCheckOutButton() {
+        checkoutButton.click();
     }
 }

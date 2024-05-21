@@ -11,8 +11,8 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 @RunWith(SerenityParameterizedRunner.class)
-@UseTestDataFrom("features/function/loginProblemUserData.csv")
-public class AddToCartInvalidScenarioTest {
+@UseTestDataFrom("features/function/loginInvalidData.csv")
+public class LoginStateTransitionScenarioTest {
     @Managed(uniqueSession = true)
     public WebDriver webdriver;
 
@@ -26,16 +26,13 @@ public class AddToCartInvalidScenarioTest {
         webdriver.manage().window().maximize();
     }
 
-
     @Test
-    public void test_invalid_add_to_cart() {
-        user.logsIn(username, password);
-        user.checkLoginSuccessful();
-
-        user.addRandomInvalidItemToCart();
-        user.checkAddItemToCartUnsuccessful();
-
-        user.logsOut();
-        user.checkLogoutSuccessful();
+    public void test_invalid_login_blocking_attempt() {
+        int number_of_attempts = 7;
+        for (int i = 1; i <= number_of_attempts; i++) {
+            user.logsIn(username, password);
+            user.checkLoginFailed();
+        }
+        user.checkBlockLoginAttempts(number_of_attempts, 7);
     }
 }

@@ -26,7 +26,6 @@ public class AddToCartUIScenarioTest {
     }
 
     @Test
-    // @Ignore
     public void test_valid_add_to_cart_ui() {
         // Login
         user.logsIn(username, password);

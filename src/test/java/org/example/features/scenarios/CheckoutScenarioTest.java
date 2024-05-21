@@ -6,7 +6,6 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.annotations.UseTestDataFrom;
 import org.example.steps.serenity.EndUserSteps;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +27,6 @@ public class CheckoutScenarioTest {
     }
 
     @Test
-    @Ignore
     public void valid_checkout() {
         user.logsIn(username, password);
         user.checkLoginSuccessful();
@@ -41,8 +39,8 @@ public class CheckoutScenarioTest {
         user.logsOut();
         user.checkLogoutSuccessful();
     }
+
     @Test
-    //@Ignore
     public void valid_unfinished_checkout() {
         user.logsIn(username, password);
         user.checkLoginSuccessful();

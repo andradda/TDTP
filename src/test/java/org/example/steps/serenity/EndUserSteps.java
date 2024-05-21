@@ -40,6 +40,11 @@ public class EndUserSteps {
     }
 
     @Step
+    public void checkBlockLoginAttempts(int numberAttempts, int maximumAttempts) {
+        Assert.assertTrue(numberAttempts < maximumAttempts);
+    }
+
+    @Step
     public void addItemToCart() {
         homePage.clickAddToCartButtonOnItem();
     }
@@ -128,5 +133,12 @@ public class EndUserSteps {
         checkoutPage.setPostalCodeField(postalCode);
         checkoutPage.clickCancelButton();
     }
+
+    @Step
+    public void checkRedirectedLoginPage() {
+        Assert.assertFalse(homePage.isVisible());
+        Assert.assertEquals(Configuration.BASE_URL, getDriver().getCurrentUrl());
+    }
+
 
 }
